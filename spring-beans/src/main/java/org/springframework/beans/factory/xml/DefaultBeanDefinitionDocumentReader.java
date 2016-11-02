@@ -82,6 +82,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 
 	/**
+	 * 该类只有这么一个public函数
 	 * This implementation parses bean definitions according to the "spring-beans" XSD
 	 * (or DTD, historically).
 	 * <p>Opens a DOM Document; then initializes the default settings
@@ -138,9 +139,9 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			}
 		}
 
-		preProcessXml(root);
-		parseBeanDefinitions(root, this.delegate);
-		postProcessXml(root);
+		preProcessXml(root); //自定义在XML解析前的前置处理
+		parseBeanDefinitions(root, this.delegate);   //解析标签
+		postProcessXml(root); //自定义在XML解析后的后置处理
 
 		this.delegate = parent;
 	}
