@@ -23,8 +23,6 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * 
  * @author Administrator
- * 他妈的，就是用来测试一下
- * 测试
  * @since 4.3
  */
 public class Apple {
