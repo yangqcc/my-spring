@@ -82,7 +82,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 
 	/**
-	 * 该类只有这么一个public函数
+	 * 该类只有这么一个public函数,用于XmlBeanDefinitionReader类中解析<bean>标签，标签解析是从这里开始的
 	 * This implementation parses bean definitions according to the "spring-beans" XSD
 	 * (or DTD, historically).
 	 * <p>Opens a DOM Document; then initializes the default settings
@@ -113,6 +113,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 
 	/**
+	 * ***标签解析从这里开始的,用于解析<beans>标签，root为<beans>节点
 	 * 注册根元素<beans>标签中的所有的元素
 	 * Register each bean definition within the given root {@code <beans/>} element.
 	 */
@@ -188,6 +189,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 
 	/**
 	 * 用BeanDefinitionParserDelegate分别解析不同标签
+	 * 分别解析import，alias，bean，beans这几个顶级标签
 	 * @param ele
 	 * @param delegate
 	 */
@@ -279,13 +281,17 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	}
 
 	/**
+	 * 处理alias标签，并且将alias注册
+	 * <alias>标签使用:<alias name="componentA-dataSource" alias="componentB-dataSource"/> ，alias是别名，name是已经定义name为
+	 * 'componentA-dataSource'的<bean>标签
 	 * Process the given alias element, registering the alias with the registry.
 	 */
 	protected void processAliasRegistration(Element ele) {
-		String name = ele.getAttribute(NAME_ATTRIBUTE);
-		String alias = ele.getAttribute(ALIAS_ATTRIBUTE);
+		String name = ele.getAttribute(NAME_ATTRIBUTE);  //获取name属性
+		String alias = ele.getAttribute(ALIAS_ATTRIBUTE); //获取alias属性
 		boolean valid = true;
-		if (!StringUtils.hasText(name)) {
+		//判断name和alias属性值是否为null或者为""
+		if (!StringUtils.hasText(name)) { 
 			getReaderContext().error("Name must not be empty", ele);
 			valid = false;
 		}
@@ -295,11 +301,11 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 		if (valid) {
 			try {
+				//注册<alias>标签
 				getReaderContext().getRegistry().registerAlias(name, alias);
 			}
 			catch (Exception ex) {
-				getReaderContext().error("Failed to register alias '" + alias +
-						"' for bean with name '" + name + "'", ele, ex);
+				getReaderContext().error("Failed to register alias '" + alias + "' for bean with name '" + name + "'", ele, ex);
 			}
 			getReaderContext().fireAliasRegistered(name, alias, extractSource(ele));
 		}
@@ -311,7 +317,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * 解析bean标签
 	 */
 	protected void processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate) {
-		BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);  //对bean元素进行解析
+		BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);  //对bean元素进行解析，返回BeanDefinitionHolder
 		if (bdHolder != null) {
 			bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
 			try {

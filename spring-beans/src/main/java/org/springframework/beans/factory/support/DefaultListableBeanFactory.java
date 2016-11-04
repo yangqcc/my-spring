@@ -812,6 +812,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		if (beanDefinition instanceof AbstractBeanDefinition) {
 			try {
+				//注册前最后一次校验，校验methodOverride是否与工厂方法并存或者methodOverride对应的方法根本不存在
 				((AbstractBeanDefinition) beanDefinition).validate();
 			}
 			catch (BeanDefinitionValidationException ex) {
@@ -823,8 +824,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		BeanDefinition oldBeanDefinition;
 
 		oldBeanDefinition = this.beanDefinitionMap.get(beanName);
-		if (oldBeanDefinition != null) {
-			if (!isAllowBeanDefinitionOverriding()) {
+		if (oldBeanDefinition != null) { //如果beanName已经被注册
+			if (!isAllowBeanDefinitionOverriding()) { //如果不允许被覆盖，则抛出异常
 				throw new BeanDefinitionStoreException(beanDefinition.getResourceDescription(), beanName,
 						"Cannot register bean definition [" + beanDefinition + "] for bean '" + beanName +
 						"': There is already [" + oldBeanDefinition + "] bound.");

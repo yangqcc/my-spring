@@ -68,6 +68,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
+ * 有状态的代理类用来解析XML的<bean>标签的定义
  * Stateful delegate class used to parse XML bean definitions.
  * Intended for use by both the main parser and any extension
  * 解析<bean>标签分析器和任何扩展
@@ -432,7 +433,9 @@ public class BeanDefinitionParserDelegate {
 	}
 
 	/**
-	 * 解析bean标签
+	 * 解析<bean>标签的各种属性，将<bean>标签属性封装到BeanDefinition，最后将BeanDefinition以及
+	 * beanName和alias封装到BeanDefinitionHolder然后返回
+	 * 
 	 * Parses the supplied {@code <bean>} element. May return {@code null}
 	 * if there were errors during parse. Errors are reported to the
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
@@ -445,13 +448,14 @@ public class BeanDefinitionParserDelegate {
 		List<String> aliases = new ArrayList<String>();
 		//分割name属性
 		if (StringUtils.hasLength(nameAttr)) { //判断name是否为null，长度是否为0
+			//有以下逻辑，所以可以这样设置<bean id="spring" name="spring1,; spring2,; spring3"  class="cn.wxdl.Spring"/>
 			String[] nameArr = StringUtils.tokenizeToStringArray(nameAttr, MULTI_VALUE_ATTRIBUTE_DELIMITERS);
 			aliases.addAll(Arrays.asList(nameArr));
 		}
 
 		String beanName = id;
 		if (!StringUtils.hasText(beanName) && !aliases.isEmpty()) {
-			beanName = aliases.remove(0);
+			beanName = aliases.remove(0); //如果id不存在（前提是id不存在，且alias不为空），会用第一个alias补充
 			if (logger.isDebugEnabled()) {
 				logger.debug("No XML 'id' specified - using '" + beanName + "' as bean name and " + aliases + " as aliases");
 			}
@@ -593,7 +597,7 @@ public class BeanDefinitionParserDelegate {
 	 */
 	public AbstractBeanDefinition parseBeanDefinitionAttributes(Element ele, String beanName, BeanDefinition containingBean, AbstractBeanDefinition bd) {
 
-		if (ele.hasAttribute(SINGLETON_ATTRIBUTE)) {
+		if (ele.hasAttribute(SINGLETON_ATTRIBUTE)) { //新版的singleton已经不建议用了
 			error("Old 1.x 'singleton' attribute in use - upgrade to 'scope' declaration", ele);
 		}
 		else if (ele.hasAttribute(SCOPE_ATTRIBUTE)) {

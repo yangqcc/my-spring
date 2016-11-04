@@ -134,6 +134,7 @@ public class BeanDefinitionReaderUtils {
 	}
 
 	/**
+	 * 将bean注册到bean factory
 	 * Register the given bean definition with the given bean factory.
 	 * @param definitionHolder the bean definition including name and aliases
 	 * @param registry the bean factory to register with
@@ -143,14 +144,14 @@ public class BeanDefinitionReaderUtils {
 			throws BeanDefinitionStoreException {
 
 		// Register bean definition under primary name.
-		String beanName = definitionHolder.getBeanName();
+		String beanName = definitionHolder.getBeanName();  //名称+BeanDefinition
 		registry.registerBeanDefinition(beanName, definitionHolder.getBeanDefinition());
 
 		// Register aliases for bean name, if any.
-		String[] aliases = definitionHolder.getAliases();
+		String[] aliases = definitionHolder.getAliases(); //获取别名
 		if (aliases != null) {
 			for (String alias : aliases) {
-				registry.registerAlias(beanName, alias);
+				registry.registerAlias(beanName, alias);  //注册别名
 			}
 		}
 	}

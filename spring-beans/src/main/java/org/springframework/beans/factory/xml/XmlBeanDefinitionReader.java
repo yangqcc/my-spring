@@ -500,7 +500,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
 		int countBefore = getRegistry().getBeanDefinitionCount();
-		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
+		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));  //½âÎö±êÇ©£¬²¢ÇÒ×¢²ábean
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}
 
