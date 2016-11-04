@@ -33,5 +33,6 @@ public class Apple {
 		BeanFactory factory = new XmlBeanFactory(new ClassPathResource("applicationContext.xml"));
 		ApplicationContext application=new ClassPathXmlApplicationContext("applicationContext.xml");
 		System.out.println(factory.getBean("apple"));
+		System.out.println(application.getBean("apple"));
 	}
 }
