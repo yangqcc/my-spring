@@ -68,10 +68,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 
 /**
- * 有状态的代理类用来解析XML的<bean>标签的定义
+ * 有状态的代理类用来解析XML的<bean>标签的定义， 解析<bean>标签的解析器和任何扩展的解析器
  * Stateful delegate class used to parse XML bean definitions.
  * Intended for use by both the main parser and any extension
- * 解析<bean>标签分析器和任何扩展
+ *
  * {@link BeanDefinitionParser BeanDefinitionParsers} or
  * {@link BeanDefinitionDecorator BeanDefinitionDecorators}.
  *
@@ -423,7 +423,7 @@ public class BeanDefinitionParserDelegate {
 
 
 	/**
-	 * 用来解析<bean>标签
+	 * 用来解析<bean>标签，<bean>标签解析从这里开始的
 	 * Parses the supplied {@code <bean>} element. May return {@code null}
 	 * if there were errors during parse. Errors are reported to the
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.

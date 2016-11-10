@@ -27,7 +27,7 @@ import org.springframework.util.StringUtils;
 /**
  * Utility methods that are useful for bean definition reader implementations.
  * Mainly intended for internal use.
- * 主要用于内部使用，主要终于生成BeanDefinitio以及注册Bean
+ * 工具方法，主要用于内部使用，主要终于生成BeanDefinition以及注册Bean
  *
  * @author Juergen Hoeller
  * @author Rob Harrop

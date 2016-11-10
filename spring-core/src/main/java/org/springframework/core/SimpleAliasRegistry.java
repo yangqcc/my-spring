@@ -27,6 +27,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.StringValueResolver;
 
 /**
+ * AliasRegistry接口的抽象类，为org.springframework.beans.factory.support.BeanDefinitionRegistry
+ * 提供服务（只是注册别名到规范名称）
+ * 
  * Simple implementation of the {@link AliasRegistry} interface.
  * Serves as base class for
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
@@ -37,7 +40,7 @@ import org.springframework.util.StringValueResolver;
  */
 public class SimpleAliasRegistry implements AliasRegistry {
 
-	/** Map from alias to canonical name */
+	/** Map from alias to canonical name 注册别名到规范名称*/
 	private final Map<String, String> aliasMap = new ConcurrentHashMap<>(16);
 
 
@@ -45,6 +48,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	public void registerAlias(String name, String alias) {
 		Assert.hasText(name, "'name' must not be empty");
 		Assert.hasText(alias, "'alias' must not be empty");
+		//如果alias与name相同的话不记录alias，并且删除alias
 		if (alias.equals(name)) {
 			this.aliasMap.remove(alias);
 		}
@@ -60,12 +64,14 @@ public class SimpleAliasRegistry implements AliasRegistry {
 							name + "': It is already registered for name '" + registeredName + "'.");
 				}
 			}
+			//当A->B存在时，若再次出现B->A时，则会抛出异常
 			checkForAliasCircle(name, alias);
 			this.aliasMap.put(alias, name);
 		}
 	}
 
 	/**
+	 * 判断alias能否被覆盖，默认为true
 	 * Return whether alias overriding is allowed.
 	 * Default is {@code true}.
 	 */
@@ -74,6 +80,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 判断给定的name是否有已经注册的alias对应
 	 * Determine whether the given name has the given alias registered.
 	 * @param name the name to check
 	 * @param alias the alias to look for
@@ -81,7 +88,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 */
 	public boolean hasAlias(String name, String alias) {
 		for (Map.Entry<String, String> entry : this.aliasMap.entrySet()) {
-			String registeredName = entry.getValue();
+			String registeredName = entry.getValue();  //已注册的name
 			if (registeredName.equals(name)) {
 				String registeredAlias = entry.getKey();
 				return (registeredAlias.equals(alias) || hasAlias(registeredAlias, alias));

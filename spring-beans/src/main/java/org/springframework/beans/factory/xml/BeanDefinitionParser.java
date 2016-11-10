@@ -21,9 +21,12 @@ import org.w3c.dom.Element;
 import org.springframework.beans.factory.config.BeanDefinition;
 
 /**
+ * 在DefaultBeanDefinitionDocumentReader内部使用，用于处理客户端的顶级标签(即<beans>的直接下一级标签)
+ * 
  * Interface used by the {@link DefaultBeanDefinitionDocumentReader} to handle custom,
  * top-level (directly under {@code <beans/>}) tags.
- *
+ * 
+ * 
  * <p>Implementations are free to turn the metadata in the custom tag into as many
  * {@link BeanDefinition BeanDefinitions} as required.
  *
@@ -38,6 +41,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
 public interface BeanDefinitionParser {
 
 	/**
+	 * 解析具体的Element，并将结果(DeanDefinition)通过BeanDefinitionRegistry进行注册
+	 * 
 	 * Parse the specified {@link Element} and register the resulting
 	 * {@link BeanDefinition BeanDefinition(s)} with the
 	 * {@link org.springframework.beans.factory.xml.ParserContext#getRegistry() BeanDefinitionRegistry}

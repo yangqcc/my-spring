@@ -18,8 +18,6 @@ package myTest;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
 /**
@@ -31,8 +29,8 @@ public class Apple {
 
 	public static void main(String[] args) {
 		BeanFactory factory = new XmlBeanFactory(new ClassPathResource("applicationContext.xml"));
-		ApplicationContext application=new ClassPathXmlApplicationContext("applicationContext.xml");
+//		ApplicationContext application=new ClassPathXmlApplicationContext("applicationContext.xml");
 		System.out.println(factory.getBean("apple"));
-		System.out.println(application.getBean("apple"));
+//		System.out.println(application.getBean("apple"));
 	}
 }
