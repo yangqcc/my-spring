@@ -89,7 +89,7 @@ public abstract class ClassFilters {
 	@SuppressWarnings("serial")
 	private static class UnionClassFilter implements ClassFilter, Serializable {
 
-		private ClassFilter[] filters;
+		private final ClassFilter[] filters;
 
 		public UnionClassFilter(ClassFilter[] filters) {
 			this.filters = filters;
@@ -124,7 +124,7 @@ public abstract class ClassFilters {
 	@SuppressWarnings("serial")
 	private static class IntersectionClassFilter implements ClassFilter, Serializable {
 
-		private ClassFilter[] filters;
+		private final ClassFilter[] filters;
 
 		public IntersectionClassFilter(ClassFilter[] filters) {
 			this.filters = filters;

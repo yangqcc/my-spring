@@ -169,7 +169,7 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	/**
 	 * The pointcut expression associated with the advice, as a simple String.
 	 */
-	private String pointcutExpression;
+	private final String pointcutExpression;
 
 	private Class<?>[] argumentTypes;
 
@@ -775,9 +775,9 @@ public class AspectJAdviceParameterNameDiscoverer implements ParameterNameDiscov
 	 */
 	private static class PointcutBody {
 
-		private int numTokensConsumed;
+		private final int numTokensConsumed;
 
-		private String text;
+		private final String text;
 
 		public PointcutBody(int tokens, String text) {
 			this.numTokensConsumed = tokens;

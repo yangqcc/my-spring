@@ -44,18 +44,18 @@ public class MethodMatchersTests {
 
 
 	public MethodMatchersTests() throws Exception {
-		EXCEPTION_GETMESSAGE = Exception.class.getMethod("getMessage");
-		ITESTBEAN_GETAGE = ITestBean.class.getMethod("getAge");
-		ITESTBEAN_SETAGE = ITestBean.class.getMethod("setAge", int.class);
-		IOTHER_ABSQUATULATE = IOther.class.getMethod("absquatulate");
+		this.EXCEPTION_GETMESSAGE = Exception.class.getMethod("getMessage");
+		this.ITESTBEAN_GETAGE = ITestBean.class.getMethod("getAge");
+		this.ITESTBEAN_SETAGE = ITestBean.class.getMethod("setAge", int.class);
+		this.IOTHER_ABSQUATULATE = IOther.class.getMethod("absquatulate");
 	}
 
 
 	@Test
 	public void testDefaultMatchesAll() throws Exception {
 		MethodMatcher defaultMm = MethodMatcher.TRUE;
-		assertTrue(defaultMm.matches(EXCEPTION_GETMESSAGE, Exception.class));
-		assertTrue(defaultMm.matches(ITESTBEAN_SETAGE, TestBean.class));
+		assertTrue(defaultMm.matches(this.EXCEPTION_GETMESSAGE, Exception.class));
+		assertTrue(defaultMm.matches(this.ITESTBEAN_SETAGE, TestBean.class));
 	}
 
 	@Test
@@ -66,12 +66,12 @@ public class MethodMatchersTests {
 	@Test
 	public void testSingle() throws Exception {
 		MethodMatcher defaultMm = MethodMatcher.TRUE;
-		assertTrue(defaultMm.matches(EXCEPTION_GETMESSAGE, Exception.class));
-		assertTrue(defaultMm.matches(ITESTBEAN_SETAGE, TestBean.class));
+		assertTrue(defaultMm.matches(this.EXCEPTION_GETMESSAGE, Exception.class));
+		assertTrue(defaultMm.matches(this.ITESTBEAN_SETAGE, TestBean.class));
 		defaultMm = MethodMatchers.intersection(defaultMm, new StartsWithMatcher("get"));
 
-		assertTrue(defaultMm.matches(EXCEPTION_GETMESSAGE, Exception.class));
-		assertFalse(defaultMm.matches(ITESTBEAN_SETAGE, TestBean.class));
+		assertTrue(defaultMm.matches(this.EXCEPTION_GETMESSAGE, Exception.class));
+		assertFalse(defaultMm.matches(this.ITESTBEAN_SETAGE, TestBean.class));
 	}
 
 
@@ -81,13 +81,13 @@ public class MethodMatchersTests {
 		MethodMatcher mm2 = new TestDynamicMethodMatcherWhichMatches();
 		MethodMatcher intersection = MethodMatchers.intersection(mm1, mm2);
 		assertTrue("Intersection is a dynamic matcher", intersection.isRuntime());
-		assertTrue("2Matched setAge method", intersection.matches(ITESTBEAN_SETAGE, TestBean.class));
-		assertTrue("3Matched setAge method", intersection.matches(ITESTBEAN_SETAGE, TestBean.class, new Integer(5)));
+		assertTrue("2Matched setAge method", intersection.matches(this.ITESTBEAN_SETAGE, TestBean.class));
+		assertTrue("3Matched setAge method", intersection.matches(this.ITESTBEAN_SETAGE, TestBean.class, new Integer(5)));
 		// Knock out dynamic part
 		intersection = MethodMatchers.intersection(intersection, new TestDynamicMethodMatcherWhichDoesNotMatch());
 		assertTrue("Intersection is a dynamic matcher", intersection.isRuntime());
-		assertTrue("2Matched setAge method", intersection.matches(ITESTBEAN_SETAGE, TestBean.class));
-		assertFalse("3 - not Matched setAge method", intersection.matches(ITESTBEAN_SETAGE, TestBean.class, new Integer(5)));
+		assertTrue("2Matched setAge method", intersection.matches(this.ITESTBEAN_SETAGE, TestBean.class));
+		assertFalse("3 - not Matched setAge method", intersection.matches(this.ITESTBEAN_SETAGE, TestBean.class, new Integer(5)));
 	}
 
 	@Test
@@ -97,9 +97,9 @@ public class MethodMatchersTests {
 		MethodMatcher union = MethodMatchers.union(getterMatcher, setterMatcher);
 
 		assertFalse("Union is a static matcher", union.isRuntime());
-		assertTrue("Matched setAge method", union.matches(ITESTBEAN_SETAGE, TestBean.class));
-		assertTrue("Matched getAge method", union.matches(ITESTBEAN_GETAGE, TestBean.class));
-		assertFalse("Didn't matched absquatulate method", union.matches(IOTHER_ABSQUATULATE, TestBean.class));
+		assertTrue("Matched setAge method", union.matches(this.ITESTBEAN_SETAGE, TestBean.class));
+		assertTrue("Matched getAge method", union.matches(this.ITESTBEAN_GETAGE, TestBean.class));
+		assertFalse("Didn't matched absquatulate method", union.matches(this.IOTHER_ABSQUATULATE, TestBean.class));
 	}
 
 	@Test
@@ -121,7 +121,7 @@ public class MethodMatchersTests {
 
 		@Override
 		public boolean matches(Method m, Class<?> targetClass) {
-			return m.getName().startsWith(prefix);
+			return m.getName().startsWith(this.prefix);
 		}
 	}
 

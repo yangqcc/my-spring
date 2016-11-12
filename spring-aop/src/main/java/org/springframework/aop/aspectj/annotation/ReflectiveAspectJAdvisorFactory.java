@@ -222,8 +222,8 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 					candidateAspectClass.getName() + "]");
 		}
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Found AspectJ method: " + candidateAdviceMethod);
+		if (this.logger.isDebugEnabled()) {
+			this.logger.debug("Found AspectJ method: " + candidateAdviceMethod);
 		}
 
 		AbstractAspectJAdvice springAdvice;
@@ -258,8 +258,8 @@ public class ReflectiveAspectJAdvisorFactory extends AbstractAspectJAdvisorFacto
 						candidateAdviceMethod, expressionPointcut, aspectInstanceFactory);
 				break;
 			case AtPointcut:
-				if (logger.isDebugEnabled()) {
-					logger.debug("Processing pointcut '" + candidateAdviceMethod.getName() + "'");
+				if (this.logger.isDebugEnabled()) {
+					this.logger.debug("Processing pointcut '" + candidateAdviceMethod.getName() + "'");
 				}
 				return null;
 			default:

@@ -28,7 +28,7 @@ import org.springframework.util.StringValueResolver;
 
 /**
  * AliasRegistry接口的抽象类，为org.springframework.beans.factory.support.BeanDefinitionRegistry
- * 提供服务（只是注册别名到规范名称）
+ * 提供服务（只是注册别名到规范名称） 用于注册别名与规范名称，获取bean时将别名转换为规范名称
  * 
  * Simple implementation of the {@link AliasRegistry} interface.
  * Serves as base class for
@@ -80,7 +80,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
-	 * 判断给定的name是否有已经注册的alias对应
+	 * 判断给定的name是否有已经注册的alias对应 ,返回true表示有循环引用，返回false表示没有循环引用
 	 * Determine whether the given name has the given alias registered.
 	 * @param name the name to check
 	 * @param alias the alias to look for
@@ -195,6 +195,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 确定bean的原名称，将alias转化为规范化的bean名称
 	 * Determine the raw name, resolving aliases to canonical names.
 	 * @param name the user-specified name
 	 * @return the transformed name

@@ -84,7 +84,7 @@ public class TypePatternClassFilter implements ClassFilter {
 	}
 
 	public String getTypePattern() {
-		return typePattern;
+		return this.typePattern;
 	}
 
 	/**

@@ -123,7 +123,7 @@ public class RegexpMethodPointcutAdvisor extends AbstractGenericPointcutAdvisor 
 				this.pointcut = createPointcut();
 				this.pointcut.setPatterns(this.patterns);
 			}
-			return pointcut;
+			return this.pointcut;
 		}
 	}
 

@@ -98,7 +98,7 @@ public class BeanFactoryAspectInstanceFactory implements MetadataAwareAspectInst
 	@Override
 	public Object getAspectCreationMutex() {
 		if (this.beanFactory != null) {
-			if (this.beanFactory.isSingleton(name)) {
+			if (this.beanFactory.isSingleton(this.name)) {
 				// Rely on singleton semantics provided by the factory -> no local lock.
 				return null;
 			}

@@ -128,7 +128,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 		if (this.signature == null) {
 			this.signature = new MethodSignatureImpl();
 		}
-		return signature;
+		return this.signature;
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 
 	@Override
 	public String getKind() {
-		return ProceedingJoinPoint.METHOD_EXECUTION;
+		return JoinPoint.METHOD_EXECUTION;
 	}
 
 	@Override
@@ -180,37 +180,37 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 
 		@Override
 		public String getName() {
-			return methodInvocation.getMethod().getName();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod().getName();
 		}
 
 		@Override
 		public int getModifiers() {
-			return methodInvocation.getMethod().getModifiers();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod().getModifiers();
 		}
 
 		@Override
 		public Class<?> getDeclaringType() {
-			return methodInvocation.getMethod().getDeclaringClass();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod().getDeclaringClass();
 		}
 
 		@Override
 		public String getDeclaringTypeName() {
-			return methodInvocation.getMethod().getDeclaringClass().getName();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod().getDeclaringClass().getName();
 		}
 
 		@Override
 		public Class<?> getReturnType() {
-			return methodInvocation.getMethod().getReturnType();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod().getReturnType();
 		}
 
 		@Override
 		public Method getMethod() {
-			return methodInvocation.getMethod();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod();
 		}
 
 		@Override
 		public Class<?>[] getParameterTypes() {
-			return methodInvocation.getMethod().getParameterTypes();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod().getParameterTypes();
 		}
 
 		@Override
@@ -223,7 +223,7 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 
 		@Override
 		public Class<?>[] getExceptionTypes() {
-			return methodInvocation.getMethod().getExceptionTypes();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getMethod().getExceptionTypes();
 		}
 
 		@Override
@@ -300,10 +300,10 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint,
 
 		@Override
 		public Class<?> getWithinType() {
-			if (methodInvocation.getThis() == null) {
+			if (MethodInvocationProceedingJoinPoint.this.methodInvocation.getThis() == null) {
 				throw new UnsupportedOperationException("No source location joinpoint available: target is null");
 			}
-			return methodInvocation.getThis().getClass();
+			return MethodInvocationProceedingJoinPoint.this.methodInvocation.getThis().getClass();
 		}
 
 		@Override

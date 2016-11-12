@@ -111,8 +111,8 @@ public class ConcurrencyThrottleInterceptorTests {
 
 	private static class ConcurrencyThread extends Thread {
 
-		private ITestBean proxy;
-		private Throwable ex;
+		private final ITestBean proxy;
+		private final Throwable ex;
 
 		public ConcurrencyThread(ITestBean proxy, Throwable ex) {
 			this.proxy = proxy;
@@ -140,7 +140,7 @@ public class ConcurrencyThrottleInterceptorTests {
 					}
 					else {
 						// should never happen
-						ex.printStackTrace();
+						this.ex.printStackTrace();
 					}
 				}
 				catch (Throwable ex) {

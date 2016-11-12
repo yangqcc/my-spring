@@ -22,7 +22,6 @@ import java.util.Arrays;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.JoinPoint.StaticPart;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.aspectj.lang.reflect.SourceLocation;
 import org.aspectj.runtime.reflect.Factory;
@@ -101,7 +100,7 @@ public class MethodInvocationProceedingJoinPointTests {
 
 				// Try reentrant call--will go through this advice.
 				// Be sure to increment depth to avoid infinite recursion
-				if (depth++ == 0) {
+				if (this.depth++ == 0) {
 					// Check that toString doesn't cause a problem
 					thisProxy.toString();
 					// Change age, so this will be returned by invocation
@@ -174,7 +173,7 @@ public class MethodInvocationProceedingJoinPointTests {
 			public void before(Method method, Object[] args, Object target) throws Throwable {
 				StaticPart staticPart = AbstractAspectJAdvice.currentJoinPoint().getStaticPart();
 				assertEquals("Same static part must be returned on subsequent requests", staticPart, AbstractAspectJAdvice.currentJoinPoint().getStaticPart());
-				assertEquals(ProceedingJoinPoint.METHOD_EXECUTION, staticPart.getKind());
+				assertEquals(JoinPoint.METHOD_EXECUTION, staticPart.getKind());
 				assertSame(AbstractAspectJAdvice.currentJoinPoint().getSignature(), staticPart.getSignature());
 				assertEquals(AbstractAspectJAdvice.currentJoinPoint().getSourceLocation(), staticPart.getSourceLocation());
 			}

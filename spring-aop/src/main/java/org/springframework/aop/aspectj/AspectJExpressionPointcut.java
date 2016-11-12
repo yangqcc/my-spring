@@ -603,7 +603,7 @@ public class AspectJExpressionPointcut extends AbstractExpressionPointcut
 		}
 
 		private boolean matchesBean(String advisedBeanName) {
-			return BeanFactoryAnnotationUtils.isQualifierMatch(this.expressionPattern::matches, advisedBeanName, beanFactory);
+			return BeanFactoryAnnotationUtils.isQualifierMatch(this.expressionPattern::matches, advisedBeanName, AspectJExpressionPointcut.this.beanFactory);
 		}
 	}
 

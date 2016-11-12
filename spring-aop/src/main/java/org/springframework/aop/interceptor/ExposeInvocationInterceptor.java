@@ -24,6 +24,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.core.NamedThreadLocal;
+import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
 /**
@@ -69,11 +70,12 @@ public class ExposeInvocationInterceptor implements MethodInterceptor, PriorityO
 	 */
 	public static MethodInvocation currentInvocation() throws IllegalStateException {
 		MethodInvocation mi = invocation.get();
-		if (mi == null)
+		if (mi == null) {
 			throw new IllegalStateException(
 					"No MethodInvocation found: Check that an AOP invocation is in progress, and that the " +
 					"ExposeInvocationInterceptor is upfront in the interceptor chain. Specifically, note that " +
 					"advices with order HIGHEST_PRECEDENCE will execute before ExposeInvocationInterceptor!");
+		}
 		return mi;
 	}
 
@@ -98,7 +100,7 @@ public class ExposeInvocationInterceptor implements MethodInterceptor, PriorityO
 
 	@Override
 	public int getOrder() {
-		return PriorityOrdered.HIGHEST_PRECEDENCE + 1;
+		return Ordered.HIGHEST_PRECEDENCE + 1;
 	}
 
 	/**

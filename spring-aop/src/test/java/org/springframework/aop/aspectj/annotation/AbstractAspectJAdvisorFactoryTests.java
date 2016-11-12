@@ -624,12 +624,12 @@ public abstract class AbstractAspectJAdvisorFactoryTests {
 
 		@Around("execution(int *.getAge())")
 		public int returnCountAsAge() {
-			return count++;
+			return this.count++;
 		}
 
 		@Before("execution(void *.set*(int))")
 		public void countSetter() {
-			++count;
+			++this.count;
 		}
 	}
 
@@ -642,12 +642,12 @@ public abstract class AbstractAspectJAdvisorFactoryTests {
 
 		@Around("execution(int *.getAge())")
 		public int returnCountAsAge() {
-			return count++;
+			return this.count++;
 		}
 
 		@Before("execution(void *.set*(int))")
 		public void countSetter() {
-			++count;
+			++this.count;
 		}
 	}
 
@@ -659,12 +659,12 @@ public abstract class AbstractAspectJAdvisorFactoryTests {
 
 		@Around("execution(int *.getAge())")
 		public int returnCountAsAge() {
-			return count++;
+			return this.count++;
 		}
 
 		@Before("execution(void *.*(..))")
 		public void countAnythingVoid() {
-			++count;
+			++this.count;
 		}
 	}
 
@@ -708,7 +708,7 @@ public abstract class AbstractAspectJAdvisorFactoryTests {
 	@Aspect
 	public static class NamedPointcutAspectWithFQN {
 
-		private ITestBean fieldThatShouldBeIgnoredBySpringAtAspectJProcessing = new TestBean();
+		private final ITestBean fieldThatShouldBeIgnoredBySpringAtAspectJProcessing = new TestBean();
 
 		@Pointcut("execution(* getAge())")
 		public void getAge() {
@@ -811,7 +811,7 @@ public abstract class AbstractAspectJAdvisorFactoryTests {
 
 		@Before("execution(* getAge())")
 		public void throwException() throws Exception {
-			throw ex;
+			throw this.ex;
 		}
 	}
 
@@ -835,17 +835,17 @@ public abstract class AbstractAspectJAdvisorFactoryTests {
 
 		@AfterReturning("execution(* echo(*))")
 		public void succeeded() {
-			++successCount;
+			++this.successCount;
 		}
 
 		@AfterThrowing("execution(* echo(*))")
 		public void failed() {
-			++failureCount;
+			++this.failureCount;
 		}
 
 		@After("execution(* echo(*))")
 		public void invoked() {
-			++afterCount;
+			++this.afterCount;
 		}
 	}
 
@@ -910,12 +910,12 @@ abstract class AbstractMakeModifiable {
 
 		@Override
 		public void acceptChanges() {
-			modified = false;
+			this.modified = false;
 		}
 
 		@Override
 		public boolean isModified() {
-			return modified;
+			return this.modified;
 		}
 
 		@Override
@@ -1089,7 +1089,7 @@ class NotLockable {
 	private int intValue;
 
 	public int getIntValue() {
-		return intValue;
+		return this.intValue;
 	}
 
 	public void setIntValue(int intValue) {
@@ -1107,16 +1107,16 @@ class PerThisAspect {
 	/**
 	 * Just to check that this doesn't cause problems with introduction processing
 	 */
-	private ITestBean fieldThatShouldBeIgnoredBySpringAtAspectJProcessing = new TestBean();
+	private final ITestBean fieldThatShouldBeIgnoredBySpringAtAspectJProcessing = new TestBean();
 
 	@Around("execution(int *.getAge())")
 	public int returnCountAsAge() {
-		return count++;
+		return this.count++;
 	}
 
 	@Before("execution(void *.set*(int))")
 	public void countSetter() {
-		++count;
+		++this.count;
 	}
 
 }

@@ -150,6 +150,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	}
 
 	/**
+	 * 必要的时候添加单例工厂来明确的单例对象（在单例注册时会被引用，比如解决循环引用问题）
 	 * Add the given singleton factory for building the specified singleton
 	 * if necessary.
 	 * <p>To be called for eager registration of singletons, e.g. to be able to
@@ -159,11 +160,11 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 */
 	protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory) {
 		Assert.notNull(singletonFactory, "Singleton factory must not be null");
-		synchronized (this.singletonObjects) {
-			if (!this.singletonObjects.containsKey(beanName)) {
-				this.singletonFactories.put(beanName, singletonFactory);
-				this.earlySingletonObjects.remove(beanName);
-				this.registeredSingletons.add(beanName);
+		synchronized (this.singletonObjects) {  //全局单例缓存同步
+			if (!this.singletonObjects.containsKey(beanName)) { //如果缓存中不包含该bean
+				this.singletonFactories.put(beanName, singletonFactory);  //将该bean的ObjectFactory放入singletonFactories
+				this.earlySingletonObjects.remove(beanName);  //从earlySingletonObjects移除该对象
+				this.registeredSingletons.add(beanName);  //
 			}
 		}
 	}

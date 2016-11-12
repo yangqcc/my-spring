@@ -496,7 +496,7 @@ class CglibAopProxy implements AopProxy, Serializable {
 	 */
 	private static class StaticDispatcher implements Dispatcher, Serializable {
 
-		private Object target;
+		private final Object target;
 
 		public StaticDispatcher(Object target) {
 			this.target = target;

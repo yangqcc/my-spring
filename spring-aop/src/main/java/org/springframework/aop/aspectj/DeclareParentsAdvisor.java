@@ -79,7 +79,7 @@ public class DeclareParentsAdvisor implements IntroductionAdvisor {
 		ClassFilter exclusion = new ClassFilter() {
 			@Override
 			public boolean matches(Class<?> clazz) {
-				return !(introducedInterface.isAssignableFrom(clazz));
+				return !(DeclareParentsAdvisor.this.introducedInterface.isAssignableFrom(clazz));
 			}
 		};
 
