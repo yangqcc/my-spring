@@ -16,9 +16,9 @@
 
 package myTest;
 
-import org.apache.catalina.core.ApplicationContext;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
 /**
@@ -28,10 +28,28 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class Apple {
 
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String toString(){
+		return name;
+	}
+
 	public static void main(String[] args) {
-		BeanFactory factory = new XmlBeanFactory(new ClassPathResource("applicationContext.xml"));
-//		ApplicationContext application=new ClassPathXmlApplicationContext("applicationContext.xml");
+		// XmlBeanFactory被废弃，用XmlBeanDefinitionReader和DefaultListableBeanFactory替代
+		// BeanFactory factory = new XmlBeanFactory(new
+		// ClassPathResource("applicationContext.xml"));
+		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
+		XmlBeanDefinitionReader XmlBeanDefinitionReader = new XmlBeanDefinitionReader(factory);
+		XmlBeanDefinitionReader.loadBeanDefinitions(new ClassPathResource("applicationContext.xml"));
 		System.out.println(factory.getBean("apple"));
-//		System.out.println(application.getBean("apple"));
+		System.out.println(factory.getBean("car"));
 	}
 }
