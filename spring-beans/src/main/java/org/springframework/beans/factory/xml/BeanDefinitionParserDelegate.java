@@ -618,7 +618,8 @@ public class BeanDefinitionParserDelegate {
 		}
 		bd.setLazyInit(TRUE_VALUE.equals(lazyInit));  //如没有设置lazy属性，则默认设置为false
 
-		//解析autowire属性
+		//解析autowire属性(byName,byType,constructor,none,autodetect(spring自己判断是byType还是construction))
+		
 		String autowire = ele.getAttribute(AUTOWIRE_ATTRIBUTE);
 		bd.setAutowireMode(getAutowireMode(autowire));  
 
@@ -626,12 +627,14 @@ public class BeanDefinitionParserDelegate {
 		String dependencyCheck = ele.getAttribute(DEPENDENCY_CHECK_ATTRIBUTE);
 		bd.setDependencyCheck(getDependencyCheck(dependencyCheck));
 
-		//解析denpends-on属性
+		//解析denpends-on属性(即依赖属性，simple,object,all,none,可以多个任意组合)
 		if (ele.hasAttribute(DEPENDS_ON_ATTRIBUTE)) {
 			String dependsOn = ele.getAttribute(DEPENDS_ON_ATTRIBUTE);
 			bd.setDependsOn(StringUtils.tokenizeToStringArray(dependsOn, MULTI_VALUE_ATTRIBUTE_DELIMITERS));
 		}
 
+		//将<bean/>元素的autowire-candidate属性设置为false，这样容器在查找自动装配对象时，将不考虑该bean，
+		//即它不会被考虑作为其它bean自动装配的候选者，但是该bean本身还是可以使用自动装配来注入其它bean的。
 		String autowireCandidate = ele.getAttribute(AUTOWIRE_CANDIDATE_ATTRIBUTE);
 		if ("".equals(autowireCandidate) || DEFAULT_VALUE.equals(autowireCandidate)) {
 			String candidatePattern = this.defaults.getAutowireCandidates();
@@ -658,7 +661,7 @@ public class BeanDefinitionParserDelegate {
 		else {
 			if (this.defaults.getInitMethod() != null) {
 				bd.setInitMethodName(this.defaults.getInitMethod());
-				bd.setEnforceInitMethod(false);
+				bd.setEnforceInitMethod(false);  //如果是默认initMethod，那么设置为false
 			}
 		}
 
