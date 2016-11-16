@@ -5,7 +5,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-
-	<bean id="apple" class="myTest.Apple" />
-	<import resource="application2.xml"/>
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<bean id="apple" class="myTest.Apple">
+		<property name="name">
+			<value>apple</value>
+		</property>
+	</bean>
+	<bean id="fruit" class="myTest.Fruit" autowire="byName" />
+	<bean id="car" class="myTest.Car" autowire="byType" depends-on="apple,;fruit" dependency-check="all">
+		<property name="name">
+			<value>奔驰</value>
+		</property>
+	</bean>
 </beans>

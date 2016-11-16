@@ -16,6 +16,9 @@
 
 package myTest;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 //import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -26,9 +29,10 @@ import org.springframework.core.io.ClassPathResource;
  * @author Administrator
  * @since 4.3
  */
-public class Apple {
+public class Apple implements BeanFactoryAware{
 
 	private String name;
+	private BeanFactory beanFactory;
 
 	public String getName() {
 		return name;
@@ -41,6 +45,18 @@ public class Apple {
 	public String toString(){
 		return name;
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
+	 */
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		this.beanFactory = beanFactory;
+	}
+
+	public BeanFactory getBeanFactory() {
+		return beanFactory;
+	}
 
 	public static void main(String[] args) {
 		// XmlBeanFactory被废弃，用XmlBeanDefinitionReader和DefaultListableBeanFactory替代
@@ -51,5 +67,7 @@ public class Apple {
 		XmlBeanDefinitionReader.loadBeanDefinitions(new ClassPathResource("applicationContext.xml"));
 		System.out.println(factory.getBean("apple"));
 		System.out.println(factory.getBean("car"));
+		System.out.println(((Apple)factory.getBean("apple")).getBeanFactory().getBean("fruit"));
 	}
+
 }

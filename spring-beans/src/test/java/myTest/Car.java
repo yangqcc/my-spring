@@ -44,6 +44,20 @@ public class Car {
 		this.name = name;
 	}
 
+	/**
+	 * @return the apple
+	 */
+	public Apple getApple() {
+		return apple;
+	}
+
+	/**
+	 * @param apple the apple to set
+	 */
+	public void setApple(Apple apple) {
+		this.apple = apple;
+	}
+
 	public String toString() {
 		return "name:" + name + ",apple:" + apple;
 	}
