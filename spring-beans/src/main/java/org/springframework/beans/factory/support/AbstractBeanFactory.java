@@ -219,12 +219,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * 返回指定bean的实例，该实例可能是共享，也可能是单独的(prototype)
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * @param name the name of the bean to retrieve
 	 * @param requiredType the required type of the bean to retrieve
 	 * @param args arguments to use when creating a bean instance using explicit arguments
 	 * (only applied when creating a new instance as opposed to retrieving an existing one)
-	 * @param typeCheckOnly whether the instance is obtained for a type check,
+	 * @param typeCheckOnly whether the instance is obtained for a type check, 是否需要类型检查
 	 * not for actual use
 	 * @return an instance of the bean
 	 * @throws BeansException if the bean could not be created
@@ -233,12 +234,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	protected <T> T doGetBean(final String name, final Class<T> requiredType, final Object[] args, boolean typeCheckOnly)
 			throws BeansException {
 
-		final String beanName = transformedBeanName(name);  //提取对应的beanName
+		final String beanName = transformedBeanName(name);  //提取对应的beanName(例如，别名转换为规范的bean name)
 		Object bean;
 
 		// Eagerly check singleton cache for manually registered singletons.  如果bean是单例，那么就直接获取
 		//直接尝试从缓存中获取或者singletonFactories中的ObjectFactory获取
-		Object sharedInstance = getSingleton(beanName);
+		Object sharedInstance = getSingleton(beanName);  //只返回缓存中的singleton对象，如果没有，则返回null
 		if (sharedInstance != null && args == null) {
 			if (logger.isDebugEnabled()) {
 				if (isSingletonCurrentlyInCreation(beanName)) {
@@ -266,7 +267,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// Not found -> check parent.
 				String nameToLookup = originalBeanName(name);
 				if (args != null) {
-					// Delegation to parent with explicit args. 
+					// Delegation to parent with explicit args. 递归用父类bean创造对象
 					return (T) parentBeanFactory.getBean(nameToLookup, args);
 				}
 				else {
@@ -286,7 +287,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 				// Guarantee initialization of beans that the current bean depends on.
 				String[] dependsOn = mbd.getDependsOn();
-				//如果存在循环依赖，则需要递归实例化依赖的Bean
+				//如果存在依赖，则需要递归实例化依赖的Bean
 				if (dependsOn != null) {
 					for (String dependsOnBean : dependsOn) {
 						if (isDependent(beanName, dependsOnBean)) {
@@ -385,11 +386,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	@Override
 	public boolean containsBean(String name) {
-		String beanName = transformedBeanName(name);
+		String beanName = transformedBeanName(name);  //别名转化为规范名称
 		if (containsSingleton(beanName) || containsBeanDefinition(beanName)) {
+			//如果是name是&开头的（即获取FactoryBean的实例），那么再判断该bean是否是FactoryBean
 			return (!BeanFactoryUtils.isFactoryDereference(name) || isFactoryBean(name));
 		}
-		// Not found -> check parent.
+		// Not found -> check parent.找父类bean
 		BeanFactory parentBeanFactory = getParentBeanFactory();
 		return (parentBeanFactory != null && parentBeanFactory.containsBean(originalBeanName(name)));
 	}
