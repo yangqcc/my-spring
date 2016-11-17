@@ -26,9 +26,10 @@ import java.util.Set;
 import org.springframework.util.StringUtils;
 
 /**
- * Default implementation of the {@link PropertyValues} interface.
- * Allows simple manipulation of properties, and provides constructors
- * to support deep copy and construction from a Map.
+ * 允许简单的属性操作，并提供构造函数从map支持深拷贝。 
+ * 继承自PropertyValues接口，深度拷贝 Default implementation of the
+ * {@link PropertyValues} interface. Allows simple manipulation of properties, and
+ * provides constructors to support deep copy and construction from a Map.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller

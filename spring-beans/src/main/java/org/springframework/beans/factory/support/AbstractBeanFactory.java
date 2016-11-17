@@ -144,7 +144,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** String resolvers to apply e.g. to annotation attribute values */
 	private final List<StringValueResolver> embeddedValueResolvers = new LinkedList<StringValueResolver>();
 
-	/** BeanPostProcessors to apply in createBean 用于创建bean的后置处理器*/
+	/** BeanPostProcessors to apply in createBean 用于创建bean的处理器，可以在bean创建前，后对bean进行处理*/
 	private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
 	/** Indicates whether any InstantiationAwareBeanPostProcessors have been registered */
@@ -160,13 +160,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private SecurityContextProvider securityContextProvider;
 
 	/** Map from bean name to merged RootBeanDefinition */
-	private final Map<String, RootBeanDefinition> mergedBeanDefinitions =
-			new ConcurrentHashMap<String, RootBeanDefinition>(256);
+	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<String, RootBeanDefinition>(256);
 
 	/** Names of beans that have already been created at least once 保存至少被创建一次的beanName*/
 	private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(256));
 
-	/** Names of beans that are currently in creation 保存当前正在创建的bean的名称*/
+	/** Names of beans that are currently in creation 保存当前线程正在创建的bean的名称，用于避免protopype循环引用*/
 	private final ThreadLocal<Object> prototypesCurrentlyInCreation = new NamedThreadLocal<Object>("Prototype beans currently in creation");
 
 
@@ -178,6 +177,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Create a new AbstractBeanFactory with the given parent.
+	 * 
 	 * @param parentBeanFactory parent bean factory, or {@code null} if none
 	 * @see #getBean
 	 */
@@ -254,7 +254,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 
 		else {
-			// Fail if we're already creating this bean instance: 如果我们在创建bean时出现循环引用，那么会抛出异常
+			// 如果我们在创建bean时出现循环引用，那么会抛出异常
+			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
 			if (isPrototypeCurrentlyInCreation(beanName)) {
 				throw new BeanCurrentlyInCreationException(beanName);
@@ -288,18 +289,22 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// Guarantee initialization of beans that the current bean depends on.
 				String[] dependsOn = mbd.getDependsOn();
 				//如果存在依赖，则需要递归实例化依赖的Bean
+				/**
+				 * 这里是xml中depend-on属性，表示在该bean创建前，depend-on中的
+				 * bean必须先创建
+				 */
 				if (dependsOn != null) {
 					for (String dependsOnBean : dependsOn) {
-						if (isDependent(beanName, dependsOnBean)) {
-							throw new BeanCreationException(mbd.getResourceDescription(), beanName,
-									"Circular depends-on relationship between '" + beanName + "' and '" + dependsOnBean + "'");
+						if (isDependent(beanName, dependsOnBean)) {  //判断是否有循环依赖
+							throw new BeanCreationException(mbd.getResourceDescription(),
+									beanName, "Circular depends-on relationship between '" + beanName + "' and '" + dependsOnBean + "'");
 						}
-						registerDependentBean(dependsOnBean, beanName); //缓存依赖调用
-						getBean(dependsOnBean);
+						registerDependentBean(dependsOnBean, beanName); //注册依赖
+						getBean(dependsOnBean); //递归获取依赖bean
 					}
 				}
 
-				// Create bean instance. 创建Bean实例
+				// Create bean instance. 创建 singleton类型的Bean实例
 				if (mbd.isSingleton()) {  //singleton创建模式
 					sharedInstance = getSingleton(beanName, new ObjectFactory<Object>() {
 						@Override
@@ -319,11 +324,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);
 				}
 
-				else if (mbd.isPrototype()) {    //prototype创建bean
+				else if (mbd.isPrototype()) {    //创建prototype类型的Bean实例
 					// It's a prototype -> create a new instance.
 					Object prototypeInstance = null;
 					try {
-						beforePrototypeCreation(beanName);
+						beforePrototypeCreation(beanName); 
 						prototypeInstance = createBean(beanName, mbd, args);
 					}
 					finally {
@@ -990,17 +995,18 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * 判断在当前线程中，该prototype类型的bean是否有相同的bean正在被创建
 	 * Return whether the specified prototype bean is currently in creation
 	 * (within the current thread).
 	 * @param beanName the name of the bean
 	 */
 	protected boolean isPrototypeCurrentlyInCreation(String beanName) {
 		Object curVal = this.prototypesCurrentlyInCreation.get();
-		return (curVal != null &&
-				(curVal.equals(beanName) || (curVal instanceof Set && ((Set<?>) curVal).contains(beanName))));
+		return (curVal != null && (curVal.equals(beanName) || (curVal instanceof Set && ((Set<?>) curVal).contains(beanName))));
 	}
 
 	/**
+	 * 把正在创建的Prototype类型的bean放入缓存中
 	 * Callback before prototype creation.
 	 * <p>The default implementation register the prototype as currently in creation.
 	 * @param beanName the name of the prototype about to be created
@@ -1025,6 +1031,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * prototype类型的bean被创建后，将beanName从prototypesCurrentlyInCreation移除
 	 * Callback after prototype creation.
 	 * <p>The default implementation marks the prototype as not in creation anymore.
 	 * @param beanName the name of the prototype that has been created
@@ -1208,8 +1215,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return a (potentially merged) RootBeanDefinition for the given bean
 	 * @throws BeanDefinitionStoreException in case of an invalid bean definition
 	 */
-	protected RootBeanDefinition getMergedBeanDefinition(
-			String beanName, BeanDefinition bd, BeanDefinition containingBd)
+	protected RootBeanDefinition getMergedBeanDefinition(String beanName, BeanDefinition bd, BeanDefinition containingBd)
 			throws BeanDefinitionStoreException {
 
 		synchronized (this.mergedBeanDefinitions) {

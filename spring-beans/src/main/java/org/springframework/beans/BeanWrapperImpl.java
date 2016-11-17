@@ -94,6 +94,7 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 	}
 
 	/**
+	 * object就是生成的beaninstance
 	 * Create a new BeanWrapperImpl for the given object.
 	 * @param object object wrapped by this BeanWrapper
 	 */

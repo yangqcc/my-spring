@@ -27,7 +27,7 @@ package org.springframework.beans;
 public interface BeanMetadataElement {
 
 	/**
-	 * 返回持有元数据元素配置的元数据资源
+	 * 返回持有元数据元素配置的元数据资源对象
 	 * Return the configuration source {@code Object} for this metadata element
 	 * (may be {@code null}).
 	 */
