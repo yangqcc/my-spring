@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author yangqc
  * @since 4.3
  */
-public class Car {
+public class Car extends AllCars{
 
 	private String name;
 
@@ -45,6 +45,6 @@ public class Car {
 	}
 
 	public String toString() {
-		return "name:" + name + ",apple:" + apple;
+		return "name:" + name + ",apple:" + apple+",type:"+getType();
 	}
 }

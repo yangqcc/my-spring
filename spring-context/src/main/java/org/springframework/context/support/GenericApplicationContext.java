@@ -34,6 +34,10 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
 
 /**
+ * 继承了BeanDefinitionRegistry，而该类内部持有一个DefaultListableBeanFactory
+ * 对象，该类继承自BeanDefinitionRegistry的方法就是通过DefaultListableBeanFactory对象
+ * 来实现的
+ * 
  * Generic ApplicationContext implementation that holds a single internal
  * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory}
  * instance and does not assume a specific bean definition format. Implements

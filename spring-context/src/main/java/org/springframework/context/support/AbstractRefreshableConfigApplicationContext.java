@@ -68,6 +68,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 	}
 
 	/**
+	 * 解析配置文件，支持多个文件以数组形式传入
 	 * Set the config locations for this application context.
 	 * <p>If not set, the implementation may use a default as appropriate.
 	 */
@@ -76,6 +77,7 @@ public abstract class AbstractRefreshableConfigApplicationContext extends Abstra
 			Assert.noNullElements(locations, "Config locations must not be null");
 			this.configLocations = new String[locations.length];
 			for (int i = 0; i < locations.length; i++) {
+				//开始解析路径，如果包含特殊符号，如${var}，会搜寻匹配的系统变量并且替换
 				this.configLocations[i] = resolvePath(locations[i]).trim();
 			}
 		}
