@@ -25,6 +25,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
+ * 作为处理文件系统资源处理的工具方法
  * Utility methods for resolving resource locations to files in the
  * file system. Mainly for internal use within the framework.
  *

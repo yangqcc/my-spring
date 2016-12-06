@@ -16,6 +16,7 @@
 
 package myTest;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -23,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author yangqc
  * @since 4.3
  */
-public class Fruit {
+public class Fruit implements InitializingBean{
 
 	@Autowired
 	private Apple apple;
@@ -35,6 +36,9 @@ public class Fruit {
 		return apple;
 	}
 
+	public void myInitMthod(){
+		System.out.println("this is initMethod!");
+	}
 	/**
 	 * @param apple the apple to set
 	 */
@@ -44,5 +48,14 @@ public class Fruit {
 
 	public String toString() {
 		return apple.toString();
+	}
+
+	/* (non-Javadoc)
+	 * 在属性设置完后，但在自定义初始化方法前调用
+	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("this is initializingBeanMethod!");
 	}
 }

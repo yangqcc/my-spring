@@ -404,6 +404,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			throws BeansException {
 
 		Object result = existingBean;
+		//BeanPostProcessor前置处理器可以在配置文件中注册
 		for (BeanPostProcessor beanProcessor : getBeanPostProcessors()) {
 			//前置处理
 			result = beanProcessor.postProcessBeforeInitialization(result, beanName);
@@ -1562,6 +1563,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 
 	/**
+	 * 初始化给定的实例
 	 * Initialize the given bean instance, applying factory callbacks
 	 * as well as init methods and bean post processors.
 	 * <p>Called from {@link #createBean} for traditionally defined beans,
@@ -1593,7 +1595,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		Object wrappedBean = bean;
-		//初始化时，前置处理器，用户可以自己配置
+		//初始化时，前置处理器，用户可以自己配置，BeanPosrProcessor可以在配置文件中注册
 		if (mbd == null || !mbd.isSynthetic()) {
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
@@ -1644,7 +1646,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected void invokeInitMethods(String beanName, final Object bean, RootBeanDefinition mbd)
 			throws Throwable {
 
-		//判断bean是否是InitializingBean，如果是的是，则要调用afterPropertiesSet方法
+		//判断bean是否是InitializingBean，如果是的是，则要调用afterPropertiesSet方法，客户端自定的对象可以实现
+		//InitializingBean 接口，对bean进行初始化
 		boolean isInitializingBean = (bean instanceof InitializingBean);
 		if (isInitializingBean && (mbd == null || !mbd.isExternallyManagedInitMethod("afterPropertiesSet"))) {
 			if (logger.isDebugEnabled()) {
@@ -1670,7 +1673,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (mbd != null) {
-			String initMethodName = mbd.getInitMethodName();
+			String initMethodName = mbd.getInitMethodName();  //获取配置文件中的init-method方法
 			//如果是isInitializingBean，再判断init-method是否是afterPropertiesSet，如果是的话，那么就不进行这一步
 			if (initMethodName != null && !(isInitializingBean && "afterPropertiesSet".equals(initMethodName)) &&
 					!mbd.isExternallyManagedInitMethod(initMethodName)) {

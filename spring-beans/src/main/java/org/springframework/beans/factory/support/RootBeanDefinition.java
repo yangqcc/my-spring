@@ -282,8 +282,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	public boolean isExternallyManagedInitMethod(String initMethod) {
 		synchronized (this.postProcessingLock) {
-			return (this.externallyManagedInitMethods != null &&
-					this.externallyManagedInitMethods.contains(initMethod));
+			return (this.externallyManagedInitMethods != null && this.externallyManagedInitMethods.contains(initMethod));
 		}
 	}
 

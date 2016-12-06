@@ -46,6 +46,11 @@ public class Apple implements BeanFactoryAware{
 		return name;
 	}
 	
+	//自定义初始化方法
+	private void setName() {
+		name = "期成";
+	}
+
 	/* (non-Javadoc)
 	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
 	 */
@@ -66,7 +71,10 @@ public class Apple implements BeanFactoryAware{
 		XmlBeanDefinitionReader XmlBeanDefinitionReader = new XmlBeanDefinitionReader(factory);
 		XmlBeanDefinitionReader.loadBeanDefinitions(new ClassPathResource("applicationContext.xml"));
 		System.out.println(factory.getBean("apple"));
+		System.out.println("----");
+		//由于用了denpend-on属性，所以fruit会在car前实例化
 		System.out.println(factory.getBean("car"));
+		System.out.println("----");
 		System.out.println(((Apple)factory.getBean("apple")).getBeanFactory().getBean("fruit"));
 	}
 

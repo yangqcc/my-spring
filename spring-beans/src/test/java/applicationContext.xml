@@ -6,12 +6,12 @@
 				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
-	<bean id="apple" class="myTest.Apple">
+	<bean id="apple" class="myTest.Apple" >
 		<property name="name">
 			<value>apple</value>
 		</property>
 	</bean>
-	<bean id="fruit" class="myTest.Fruit" autowire="byName" />
+	<bean id="fruit" class="myTest.Fruit" autowire="byName" init-method="afterPropertiesSet"/>
 	<bean id="car" class="myTest.Car" autowire="byType" depends-on="apple,;fruit" dependency-check="all">
 		<property name="name">
 			<value>奔驰</value>

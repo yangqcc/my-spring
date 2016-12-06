@@ -824,10 +824,17 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		return result;
 	}
 
+	/**
+	 *  this.beanPostProcessors.remove(beanPostProcessor);  
+	 *	this.beanPostProcessors.add(beanPostProcessor);
+	 *  这里这样使用是由于{@code org.springframework.context.support.PostProcessorRegistrationDelegate}
+	 *  的registerBeanPostProcessors(ConfigurableListableBeanFactory, AbstractApplicationContext)方法对
+	 *  BeanPostProcessor进行了重复注册
+	 */
 	@Override
 	public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
 		Assert.notNull(beanPostProcessor, "BeanPostProcessor must not be null");
-		this.beanPostProcessors.remove(beanPostProcessor);
+		this.beanPostProcessors.remove(beanPostProcessor);  
 		this.beanPostProcessors.add(beanPostProcessor);
 		if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
 			this.hasInstantiationAwareBeanPostProcessors = true;
@@ -1124,10 +1131,12 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 */
 	protected void initBeanWrapper(BeanWrapper bw) {
 		bw.setConversionService(getConversionService());
+		//BeanWeapper实现了PropertyEditorRegistry接口
 		registerCustomEditors(bw);
 	}
 
 	/**
+	 * 初始化客户端的PropertyEditorRegistry编辑器
 	 * Initialize the given PropertyEditorRegistry with the custom editors
 	 * that have been registered with this BeanFactory.
 	 * <p>To be called for BeanWrappers that will create and populate bean
@@ -1144,6 +1153,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		if (!this.propertyEditorRegistrars.isEmpty()) {
 			for (PropertyEditorRegistrar registrar : this.propertyEditorRegistrars) {
 				try {
+					//在registrar将PropertyEditor注册到resistry
 					registrar.registerCustomEditors(registry);
 				}
 				catch (BeanCreationException ex) {
@@ -1413,6 +1423,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * 在给bean definition赋值时，判断是否注册的有Spel解析器，如果有，则用解析器对
+	 * xml标签中的值进行解析
 	 * Evaluate the given String as contained in a bean definition,
 	 * potentially resolving it as an expression.
 	 * @param value the value to check

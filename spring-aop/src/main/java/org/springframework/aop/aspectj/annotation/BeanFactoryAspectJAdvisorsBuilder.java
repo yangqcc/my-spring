@@ -87,8 +87,8 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 			if (aspectNames == null) {
 				List<Advisor> advisors = new LinkedList<>();
 				aspectNames = new LinkedList<>();
-				String[] beanNames =
-						BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this.beanFactory, Object.class, true, false);
+				//获取所有的beanNames
+				String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(this.beanFactory, Object.class, true, false);
 				for (String beanName : beanNames) {
 					if (!isEligibleBean(beanName)) {
 						continue;
@@ -96,16 +96,18 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 					// We must be careful not to instantiate beans eagerly as in this
 					// case they would be cached by the Spring container but would not
 					// have been weaved
+					// 获取对应的bean类型
 					Class<?> beanType = this.beanFactory.getType(beanName);
 					if (beanType == null) {
 						continue;
 					}
+					//存在AspectJ注解
 					if (this.advisorFactory.isAspect(beanType)) {
 						aspectNames.add(beanName);
 						AspectMetadata amd = new AspectMetadata(beanType, beanName);
 						if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
-							MetadataAwareAspectInstanceFactory factory =
-									new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
+							MetadataAwareAspectInstanceFactory factory = new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
+							//解析AspectJ中的增强方法
 							List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 							if (this.beanFactory.isSingleton(beanName)) {
 								this.advisorsCache.put(beanName, classAdvisors);
@@ -121,8 +123,8 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 								throw new IllegalArgumentException("Bean with name '" + beanName +
 										"' is a singleton, but aspect instantiation model is not singleton");
 							}
-							MetadataAwareAspectInstanceFactory factory =
-									new PrototypeAspectInstanceFactory(this.beanFactory, beanName);
+							MetadataAwareAspectInstanceFactory factory = new PrototypeAspectInstanceFactory(
+									this.beanFactory, beanName);
 							this.aspectFactoryCache.put(beanName, factory);
 							advisors.addAll(this.advisorFactory.getAdvisors(factory));
 						}
@@ -138,6 +140,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 		}
 		List<Advisor> advisors = new LinkedList<>();
 		for (String aspectName : aspectNames) {
+			//记录在缓存中
 			List<Advisor> cachedAdvisors = this.advisorsCache.get(aspectName);
 			if (cachedAdvisors != null) {
 				advisors.addAll(cachedAdvisors);

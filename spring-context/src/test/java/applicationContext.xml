@@ -2,20 +2,41 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
-	<bean
-		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	xmlns:aop="http://www.springframework.org/schema/aop"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+				 http://www.springframework.org/schema/aop 
+                 http://www.springframework.org/schema/aop/spring-aop.xsd
+				">
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	
 	<bean id="apple" class="myTest.Apple" autowire-candidate="true">
 		<property name="name">
 			<value>apple</value>
 		</property>
 	</bean>
-	<bean id="car" class="myTest.Car" autowire="byType">
+	<bean id="ww" class="myTest.AllCars">
+		<property name="type">
+			<value>轿车</value>
+		</property>
+	</bean>
+	<bean id="car" class="myTest.Car" autowire="byType" parent="ww">
 		<property name="name">
-			<value>奔驰</value>
+			<value>wwww</value>
+		</property>
+	</bean>
+	<bean id="bfpp" class="myTest.ObscenityRemovingBeanFactoryPostProcessor">
+		<property name="obscenties">
+			<set>
+				<value>ww</value>
+			</set>
 		</property>
 	</bean>
 	<bean id="fruit" class="myTest.Fruit" />
+	<bean id="testListener" class="myTest.listener.TestListener" />
+	
+	<bean id="test" class="myTest.aop.TestBean"/>
+	<bean class="myTest.aop.AspectjTest"/>
 </beans>
