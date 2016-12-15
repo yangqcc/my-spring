@@ -73,6 +73,9 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 
 
 	/**
+	 * 从当前bean factory获取AspectJ注解标注的bean，并且返回他们所定义的Spring AOP Advisors
+	 * 对每个AspectJ的advice创建Spring的Advisor
+	 * 
 	 * Look for AspectJ-annotated aspect beans in the current bean factory,
 	 * and return to a list of Spring AOP Advisors representing them.
 	 * <p>Creates a Spring Advisor for each AspectJ advice method.
