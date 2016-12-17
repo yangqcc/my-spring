@@ -19,7 +19,8 @@ package org.aopalliance.intercept;
 import org.aopalliance.aop.Advice;
 
 /**
- * 该接口代表了一个拦截器
+ * 该接口代表了一个拦截器，注意是继承自{@link Advice}接口，
+ * 子接口有{@link MethodInterceptor}其实就是Around Advice
  * This interface represents a generic interceptor.
  *
  * <p>A generic interceptor can intercept runtime events that occur

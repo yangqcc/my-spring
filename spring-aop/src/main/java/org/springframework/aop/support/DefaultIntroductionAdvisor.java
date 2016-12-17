@@ -31,6 +31,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
+ * 里面没有PointCut，只有Advice，但是此类实现了ClassFilter接口，所以此类只能实现类的拦截
  * Simple {@link org.springframework.aop.IntroductionAdvisor} implementation
  * that by default applies to any class.
  *

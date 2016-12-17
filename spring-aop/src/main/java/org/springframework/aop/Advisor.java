@@ -35,6 +35,8 @@ import org.aopalliance.aop.Advice;
 public interface Advisor {
 
 	/**
+	 * 返回切面的advice，一个advice可能是一个interceptor，或者是一个
+	 * before advice以及throws advice
 	 * Return the advice part of this aspect. An advice may be an
 	 * interceptor, a before advice, a throws advice, etc.
 	 * @return the advice that should apply if the pointcut matches

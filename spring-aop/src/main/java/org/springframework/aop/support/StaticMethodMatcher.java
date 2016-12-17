@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import org.springframework.aop.MethodMatcher;
 
 /**
+ * 静态MethodMatcher，忽略运行过程中的参数
  * Convenient abstract superclass for static method matchers, which don't care
  * about arguments at runtime.
  */

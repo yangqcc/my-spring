@@ -39,4 +39,34 @@
 	
 	<bean id="test" class="myTest.aop.TestBean"/>
 	<bean class="myTest.aop.AspectjTest"/>
+	
+	<!-- 测试AOP -->
+	<bean id="task" class="myTest.aop.introduction.Task" scope="prototype"/>
+	
+	<bean id="introduceTask" class="org.springframework.aop.framework.ProxyFactoryBean"
+		scope="prototype">
+		<property name="targetName">
+			<value>task</value>
+		</property>
+		<property name="proxyInterfaces">
+			<list>
+				<value>myTest.aop.introduction.ICounter</value>
+				<value>myTest.aop.introduction.ITask</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>introductionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="introductionInterceptor"
+		class="org.springframework.aop.support.DelegatingIntroductionInterceptor"
+		scope="prototype">
+		<constructor-arg>
+			<bean class="myTest.aop.introduction.CounterImpl">
+			</bean>
+		</constructor-arg>
+	</bean>
 </beans>

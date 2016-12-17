@@ -19,6 +19,9 @@ package org.springframework.aop;
 import java.lang.reflect.Method;
 
 /**
+ * 可以访问到返回的参数，但是不能改变参数，但是Around Advice可以改变返回参数，所以
+ * AfterReturningAdvice使用会受到一些限制
+ * 应用场景：在函数返回后向数据库插入运行的状态。
  * After returning advice is invoked only on normal method return, not if an
  * exception is thrown. Such advice can see the return value, but cannot change it.
  *
