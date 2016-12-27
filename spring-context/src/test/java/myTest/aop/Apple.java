@@ -14,26 +14,29 @@
  * limitations under the License.
  */
 
-package myTest.aop.introduction;
+package myTest.aop;
 
 /**
  * 
  * @author yangqc
  * @since 5.0
  */
-public class CounterImpl implements ICounter {
+public class Apple implements IFruit {
 
-	private int counter;
+	private String name;
 
-	@Override
-	public void resetCounter() {
-		counter = 0;
+	public Apple(String name) {
+		this.name = name;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see myTest.aop.IFruit#sayName()
+	 */
 	@Override
-	public int getCounter() {
-		counter++;
-		return counter;
+	public void sayName() {
+		System.out.println(name);
 	}
 
 }

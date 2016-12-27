@@ -19,6 +19,7 @@ package org.springframework.transaction.interceptor;
 import org.springframework.transaction.TransactionDefinition;
 
 /**
+ * 对于AOP有用
  * This interface adds a {@code rollbackOn} specification to {@link TransactionDefinition}.
  * As custom {@code rollbackOn} is only possible with AOP, this class resides
  * in the AOP transaction package.
@@ -39,6 +40,7 @@ public interface TransactionAttribute extends TransactionDefinition {
 	String getQualifier();
 
 	/**
+	 * 指定业务方法在抛出那些异常的情况下可以回滚
 	 * Should we roll back on the given exception?
 	 * @param ex the exception to evaluate
 	 * @return whether to perform a rollback or not

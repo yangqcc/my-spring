@@ -14,26 +14,22 @@
  * limitations under the License.
  */
 
-package myTest.aop.introduction;
+package myTest.aop;
+
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * 
  * @author yangqc
  * @since 5.0
  */
-public class CounterImpl implements ICounter {
-
-	private int counter;
+public class PerformanceMethodInterceptor implements MethodInterceptor {
 
 	@Override
-	public void resetCounter() {
-		counter = 0;
-	}
-
-	@Override
-	public int getCounter() {
-		counter++;
-		return counter;
+	public Object invoke(MethodInvocation invocation) throws Throwable {
+		System.out.println("hello!");
+		return invocation.proceed();
 	}
 
 }

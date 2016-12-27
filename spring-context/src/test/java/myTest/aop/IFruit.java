@@ -14,26 +14,14 @@
  * limitations under the License.
  */
 
-package myTest.aop.introduction;
+package myTest.aop;
 
 /**
  * 
  * @author yangqc
  * @since 5.0
  */
-public class CounterImpl implements ICounter {
+public interface IFruit {
 
-	private int counter;
-
-	@Override
-	public void resetCounter() {
-		counter = 0;
-	}
-
-	@Override
-	public int getCounter() {
-		counter++;
-		return counter;
-	}
-
+	public void sayName();
 }

@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package myTest.aop.introduction;
+package myTest.aop;
+
+import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
 
 /**
  * 
  * @author yangqc
  * @since 5.0
  */
-public class CounterImpl implements ICounter {
+public class TestAop {
 
-	private int counter;
-
-	@Override
-	public void resetCounter() {
-		counter = 0;
+	public static void main(String[] args) {
+		Apple apple = new Apple("apple");
+		ProxyFactory proxyFactory = new ProxyFactory(apple);
+		proxyFactory.setInterfaces(new Class[] { IFruit.class });
+		NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor();
+		advisor.setAdvice(new PerformanceMethodInterceptor());
+		advisor.addMethodName("sayName");
+		proxyFactory.addAdvisor(advisor);
+		IFruit fruit = (IFruit) proxyFactory.getProxy();
+		fruit.sayName();
 	}
-
-	@Override
-	public int getCounter() {
-		counter++;
-		return counter;
-	}
-
 }

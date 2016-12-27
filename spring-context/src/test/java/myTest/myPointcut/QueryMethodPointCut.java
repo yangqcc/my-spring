@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package myTest.aop.introduction;
+package myTest.myPointcut;
+
+import java.lang.reflect.Method;
+
+import org.springframework.aop.support.StaticMethodMatcherPointcut;
 
 /**
- * 
+ * 实现自定义的用于过滤名称的PointCut
  * @author yangqc
  * @since 5.0
  */
-public class CounterImpl implements ICounter {
-
-	private int counter;
+public class QueryMethodPointCut extends StaticMethodMatcherPointcut {
 
 	@Override
-	public void resetCounter() {
-		counter = 0;
-	}
-
-	@Override
-	public int getCounter() {
-		counter++;
-		return counter;
+	public boolean matches(Method method, Class<?> clazz) {
+		if (method.getName().startsWith("get") && clazz.getPackage().getName().startsWith("...dao")) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 }
