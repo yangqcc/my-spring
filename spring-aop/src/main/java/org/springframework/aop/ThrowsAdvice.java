@@ -17,6 +17,8 @@
 package org.springframework.aop;
 
 /**
+ * throws advice的标记接口,该接口没有任何方法,但是子类必须一个或多个afterThrowing方法,
+ * 这些方法将通过反射被调用(继承自after advice)
  * Tag interface for throws advice.
  *
  * <p>There are not any methods on this interface, as methods are invoked by

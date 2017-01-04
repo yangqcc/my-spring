@@ -16,12 +16,8 @@
 
 package myTest;
 
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-//import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 
 /**
  * 测试自动装配
@@ -46,8 +42,7 @@ public class Apple {
 
 	public static void main(String[] args) {
 		// XmlBeanFactory被废弃，用XmlBeanDefinitionReader和DefaultListableBeanFactory替代
-		// BeanFactory factory = new XmlBeanFactory(new
-		// ClassPathResource("applicationContext.xml"));
+//      BeanFactory factory = new XmlBeanFactory(new ClassPathResource("applicationContext.xml"));
 //		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
 //		XmlBeanDefinitionReader XmlBeanDefinitionReader = new XmlBeanDefinitionReader(factory);
 //		XmlBeanDefinitionReader.loadBeanDefinitions(new ClassPathResource("applicationContext.xml"));

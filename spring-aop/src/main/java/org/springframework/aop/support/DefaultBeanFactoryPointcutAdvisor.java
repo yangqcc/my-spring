@@ -19,6 +19,7 @@ package org.springframework.aop.support;
 import org.springframework.aop.Pointcut;
 
 /**
+ * ¼Ì³Ð×Ô{@link AbstractBeanFactoryPointcutAdvisor}
  * Concrete BeanFactory-based PointcutAdvisor that allows for any Advice
  * to be configured as reference to an Advice bean in the BeanFactory,
  * as well as the Pointcut to be configured through a bean property.

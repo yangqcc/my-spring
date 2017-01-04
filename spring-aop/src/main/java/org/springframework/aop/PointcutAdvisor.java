@@ -17,6 +17,7 @@
 package org.springframework.aop;
 
 /**
+ * point cut类型Advisor的超类(introduction advisor不能实现method-level级别的拦截)
  * Superinterface for all Advisors that are driven by a pointcut.
  * This covers nearly all advisors except introduction advisors,
  * for which method-level matching doesn't apply.
@@ -24,7 +25,7 @@ package org.springframework.aop;
  * @author Rod Johnson
  */
 public interface PointcutAdvisor extends Advisor {
-
+ 
 	/**
 	 * Get the Pointcut that drives this advisor.
 	 */

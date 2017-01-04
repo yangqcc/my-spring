@@ -40,6 +40,7 @@ import org.aopalliance.aop.Advice;
 public interface DynamicIntroductionAdvice extends Advice {
 
 	/**
+	 * 判断 introduction advice是否继承自给定的interface
 	 * Does this introduction advice implement the given interface?
 	 * @param intf the interface to check
 	 * @return whether the advice implements the specified interface

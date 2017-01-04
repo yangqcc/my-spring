@@ -63,6 +63,7 @@ public class NameMatchMethodPointcut extends StaticMethodMatcherPointcut impleme
 	}
 
 	/**
+	 * 添加额外的method name,如果代理对象已经生成,则该方法不会骑左右
 	 * Add another eligible method name, in addition to those already named.
 	 * Like the set methods, this method is for use when configuring proxies,
 	 * before a proxy is used.

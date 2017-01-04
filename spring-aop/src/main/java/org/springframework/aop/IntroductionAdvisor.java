@@ -17,6 +17,7 @@
 package org.springframework.aop;
 
 /**
+ * 该接口不能直接被继承,继承该接口的子接口必须提供introduction类型的advice
  * Superinterface for advisors that perform one or more AOP <b>introductions</b>.
  *
  * <p>This interface cannot be implemented directly; subinterfaces must
@@ -32,6 +33,7 @@ package org.springframework.aop;
 public interface IntroductionAdvisor extends Advisor, IntroductionInfo {
 
 	/**
+	 * 返回filter,filter决定introduction应用的目标classes
 	 * Return the filter determining which target classes this introduction
 	 * should apply to.
 	 * <p>This represents the class part of a pointcut. Note that method

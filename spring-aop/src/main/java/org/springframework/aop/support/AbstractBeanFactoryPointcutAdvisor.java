@@ -27,6 +27,8 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.util.Assert;
 
 /**
+ * 依赖于PointCutAdvisor,允许任何Advice的配置从BeanFactory获取相应的bean,
+ * (该类主要是对advice的处理,包括获取advice的名称,advice的实例)
  * Abstract BeanFactory-based PointcutAdvisor that allows for any Advice
  * to be configured as reference to an Advice bean in a BeanFactory.
  *
@@ -52,6 +54,7 @@ public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcu
 
 
 	/**
+	 * 
 	 * Specify the name of the advice bean that this advisor should refer to.
 	 * <p>An instance of the specified bean will be obtained on first access
 	 * of this advisor's advice. This advisor will only ever obtain at most one
@@ -64,6 +67,7 @@ public abstract class AbstractBeanFactoryPointcutAdvisor extends AbstractPointcu
 	}
 
 	/**
+	 * 返回advisor引用的advice bean name,如果有的话
 	 * Return the name of the advice bean that this advisor refers to, if any.
 	 */
 	public String getAdviceBeanName() {

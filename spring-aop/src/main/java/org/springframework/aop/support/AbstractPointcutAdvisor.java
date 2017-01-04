@@ -27,7 +27,7 @@ import org.springframework.util.ObjectUtils;
 /**
  * Abstract base class for {@link org.springframework.aop.PointcutAdvisor}
  * implementations. Can be subclassed for returning a specific pointcut/advice
- * or a freely configurable pointcut/advice.
+ * or a freely configurable(втсиеДжц) pointcut/advice.
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
