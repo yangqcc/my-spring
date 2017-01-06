@@ -10,18 +10,22 @@
                  http://www.springframework.org/schema/aop/spring-aop.xsd
 				">
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<!-- 
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	 -->
 	
 	<bean id="apple" class="myTest.Apple" autowire-candidate="true">
 		<property name="name">
 			<value>apple</value>
 		</property>
 	</bean>
+	<!--
 	<bean id="ww" class="myTest.AllCars">
 		<property name="type">
 			<value>轿车</value>
 		</property>
 	</bean>
+	
 	<bean id="car" class="myTest.Car" autowire="byType" parent="ww">
 		<property name="name">
 			<value>wwww</value>
@@ -34,11 +38,9 @@
 			</set>
 		</property>
 	</bean>
+	  -->
 	<bean id="fruit" class="myTest.Fruit" />
 	<bean id="testListener" class="myTest.listener.TestListener" />
-	
-	<bean id="test" class="myTest.aop.TestBean"/>
-	<bean class="myTest.aop.AspectjTest"/>
 	
 	<!-- 测试AOP -->
 	<bean id="task" class="myTest.aop.introduction.Task" scope="prototype"/>
@@ -69,4 +71,8 @@
 			</bean>
 		</constructor-arg>
 	</bean>
+
+	<!-- <bean id="test" class="myTest.aop.TestBean"/> <bean class="myTest.aop.AspectjTest"/> -->
+	<bean id="test" class="myTest.aopannotation.TestBean"/>
+	<bean class="myTest.aopannotation.AspectJTest"/>
 </beans>

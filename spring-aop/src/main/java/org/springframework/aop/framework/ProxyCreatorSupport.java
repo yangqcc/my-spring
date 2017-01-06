@@ -22,7 +22,7 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 /**
- * 生成代理对象的代理工厂基本类
+ * 生成代理对象的代理工厂基本类,内部默认使用{@link DefaultAopProxyFactory},用于生成代理对象
  * Base class for proxy factories.
  * Provides convenient access to a configurable AopProxyFactory.
  *

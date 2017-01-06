@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2016 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package myTest.aop;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+package myTest.aopannotation;
 
 /**
  * 
  * @author yangqc
  * @since 5.0
  */
-public class TestBean {
+public class TestBean implements MyInterface{
 
 	private String testStr = "testStr";
 
@@ -35,14 +32,13 @@ public class TestBean {
 	public void setTestStr(String testStr) {
 		this.testStr = testStr;
 	}
-
-	public void testtt() {
+	
+	public void test(){
 		System.out.println("test");
 	}
 
-	public static void main(String[] args) {
-		ApplicationContext bf = new ClassPathXmlApplicationContext("applicationContext.xml");
-		TestBean bean = (TestBean) bf.getBean("test");
-		bean.testtt();
+	@Override
+	public String getString() {
+		return "this is String";
 	}
 }

@@ -82,11 +82,13 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 	private final AdvisedSupport advised;
 
 	/**
+	 * 判断{@link #equals}方法在代理接口里面是否有定义
 	 * Is the {@link #equals} method defined on the proxied interfaces?
 	 */
 	private boolean equalsDefined;
 
 	/**
+	 * 判断{@link #hashCode}方法在代理接口里面是否有定义
 	 * Is the {@link #hashCode} method defined on the proxied interfaces?
 	 */
 	private boolean hashCodeDefined;
@@ -162,10 +164,12 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 		Object target = null;
 
 		try {
+			//equals方法的处理
 			if (!this.equalsDefined && AopUtils.isEqualsMethod(method)) {
 				// The target does not implement the equals(Object) method itself.
 				return equals(args[0]);
 			}
+			//hashCode方法的处理
 			else if (!this.hashCodeDefined && AopUtils.isHashCodeMethod(method)) {
 				// The target does not implement the hashCode() method itself.
 				return hashCode();
@@ -174,6 +178,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 				// There is only getDecoratedClass() declared -> dispatch to proxy config.
 				return AopProxyUtils.ultimateTargetClass(this.advised);
 			}
+			//
 			else if (!this.advised.opaque && method.getDeclaringClass().isInterface() &&
 					method.getDeclaringClass().isAssignableFrom(Advised.class)) {
 				// Service invocations on ProxyConfig with the proxy config...
@@ -198,6 +203,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			// Get the interception chain for this method.  获取方法的调用链
 			List<Object> chain = this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass);
 
+			// 如果没有发现任何拦截器,那么直接调用切点方法
 			// Check whether we have any advice. If we don't, we can fallback on direct
 			// reflective invocation of the target, and avoid creating a MethodInvocation.
 			if (chain.isEmpty()) {
@@ -208,6 +214,8 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 				retVal = AopUtils.invokeJoinpointUsingReflection(target, method, argsToUse);
 			}
 			else {
+				//将拦截器链封装在ReflectiveMethodInvocation里面,
+				//以便使用其procees进行链表封装
 				// We need to create a method invocation...
 				invocation = new ReflectiveMethodInvocation(proxy, target, method, args, targetClass, chain);
 				// Proceed to the joinpoint through the interceptor chain.

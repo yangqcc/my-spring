@@ -19,6 +19,7 @@ package org.aopalliance.intercept;
 import java.lang.reflect.Method;
 
 /**
+ * ÓÃÓÚÃèÊömethod
  * Description of an invocation to a method, given to an interceptor
  * upon method-call.
  *

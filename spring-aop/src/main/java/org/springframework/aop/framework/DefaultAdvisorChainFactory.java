@@ -47,8 +47,7 @@ import org.springframework.aop.support.MethodMatchers;
 public class DefaultAdvisorChainFactory implements AdvisorChainFactory, Serializable {
 
 	@Override
-	public List<Object> getInterceptorsAndDynamicInterceptionAdvice(
-			Advised config, Method method, Class<?> targetClass) {
+	public List<Object> getInterceptorsAndDynamicInterceptionAdvice(Advised config, Method method, Class<?> targetClass) {
 
 		// This is somewhat tricky... We have to process introductions first,
 		// but we need to preserve order in the ultimate list.

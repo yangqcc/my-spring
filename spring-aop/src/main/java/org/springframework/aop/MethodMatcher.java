@@ -19,6 +19,7 @@ package org.springframework.aop;
 import java.lang.reflect.Method;
 
 /**
+ * {@link Pointcut} (pointcut由methodmatcher和classfilter组成)的组成部分,判断目标方法是否合格
  * Part of a {@link Pointcut}: Checks whether the target method is eligible for advice.
  *
  * <p>A MethodMatcher may be evaluated <b>statically</b> or at <b>runtime</b> (dynamically).

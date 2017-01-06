@@ -20,8 +20,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.MethodMatcher;
 
 /**
- * 内部框架的类，包含了一个MethodInterceptor和MethodMatcher实例，用于
- * advisor链中的元素
+ * 内部框架的类,包含了一个MethodInterceptor和MethodMatcher实例,当做
+ * advisor chain 中的元素
  * Internal framework class, combining a MethodInterceptor instance
  * with a MethodMatcher for use as an element in the advisor chain.
  *

@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.springframework.util.Assert;
 
 /**
+ * 用于创建代理的配置基本信息的超类,确保所哟普的代理创建类都有一致的属性
  * Convenience superclass for configuration used in creating proxies,
  * to ensure that all proxy creators have consistent properties.
  *
